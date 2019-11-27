@@ -1,4 +1,5 @@
 <script>
+    import {currentUser, token} from '../../stores.js'
     import { beforeUpdate, onMount } from 'svelte';
     import { navigate } from "svelte-routing";
     import { ajax } from "../../utl/functions.js";
@@ -6,21 +7,24 @@
 
     let users = []
 	beforeUpdate(() => {
-        let currentUser = localStorage.getItem('currentUser')
-        if (! currentUser) {
-            navigate("/login", { replace: true });
-        }
     });
     onMount(() => {
-        let url = 'http://localhost:3132/api/v1/users'
-        // let users = (async() => await ajax('GET', url))()
-        ajax('GET', url).then(response => users = response)
+        if (! $currentUser.email) {
+            return navigate("/login", { replace: true });
+        }
+        ajax('GET', 'users').then(response => {
+            if (['denied','unauthorized'].includes(response.error)) {
+                console.log(response.error)
+                return navigate("/login", { replace: true });
+            } else {
+                users = response
+            }
+        })
     })
+
 </script>
 
 <h1>Admin Side</h1>
-<p>Welcome to the Admin side</p>
-
 {#each users as user}
     <li>{user.email}</li>
 {/each}
