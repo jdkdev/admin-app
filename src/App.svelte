@@ -1,12 +1,9 @@
 <script>
-	import { Router, Route } from "svelte-routing";
-	import Nav from "./components/Nav.svelte";
-    import {currentUser} from './stores.js'
+    import Nav from "./components/Nav.svelte";
 </script>
 
 <!--Template-->
 <main>
-{$currentUser.email}
     <div class="container">
         <Nav/>
     </div>
@@ -42,11 +39,24 @@ main {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    &:active {
-        background-color: #ddd;
-    }
     &:focus {
         border-color: #666;
     }
+}
+:global(a) {
+    text-decoration: none;
+}
+:global(.m10) {
+    margin-bottom: 10px;
+}
+:global(tr:nth-child(even)) {
+      background: rgba(0, 0, 0, .05);
+}
+:global(table) {
+    text-align: left;
+}
+
+:global(td) {
+    padding: .3em 2.4em .6em .3em;
 }
 </style>

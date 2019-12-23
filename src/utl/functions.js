@@ -1,9 +1,9 @@
+import {apiToken} from './app.js'
 import { get } from 'svelte/store'
-import {currentUser, token} from '../stores.js'
 
-let baseUrl = 'http://localhost:3132/api/v1/'
-let access = get(token)
-export const ajax = async function(method = 'GET', url = '', opts = {headers: {authorization: access}}) {
+let token = get(apiToken)
+
+export const ajax = async function(method = 'GET', url = '', opts = {headers: {authorization: token}}) {
     // Default options are marked with *
     let defaultOpts = {
         method: method, // *GET, POST, PUT, DELETE, etc.
@@ -20,8 +20,8 @@ export const ajax = async function(method = 'GET', url = '', opts = {headers: {a
     }
     opts = {...defaultOpts, ...opts}
 
-    const response = await fetch(baseUrl + url, opts);
-    return await response.json(); // parses JSON response into native JavaScript objects
+    const response = await fetch(url, opts)
+    return await response.json() // parses JSON response into native JavaScript objects
 }
 
 export const postData = async function(url = '', data = {}) {

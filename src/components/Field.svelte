@@ -10,7 +10,15 @@
 <div class="field">
     <label>{label}</label>
     <div class="control">
-        <input {type} {name} {value} {placeholder}>
+        {#if type === 'text'}
+            <input type='text' {name} bind:value={value} {placeholder}>
+        {:else if type === 'password'}
+            <input type='password' {name} bind:value={value} {placeholder}>
+        {:else if type === 'hidden'}
+            <input type='hidden' {name} bind:value={value} {placeholder}>
+        {:else}
+            <input type='text' {name} bind:value={value} {placeholder}>
+        {/if}
     </div>
     {#if errors.length}
         <div class="error">{errors[0]}</div>

@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import autoPreprocess from 'svelte-preprocess';
+import alias from '@rollup/plugin-alias';
 // import scss from 'rollup-plugin-scss';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -18,6 +19,7 @@ export default {
 	},
 	plugins: [
         // scss(),
+        alias({ resolve: ['.jsx', '.js'] }),
 		svelte({
             // enable run-time checks when not in production
             preprocess: autoPreprocess(),

@@ -1,12 +1,13 @@
 import { writable } from 'svelte/store';
 
-let user = JSON.parse(localStorage.getItem('currentUser')) || {}
+let userData = JSON.parse(localStorage.getItem('currentUser')) || {}
 
-export const currentUser = writable(user,
-    () => console.log('user', 'no more subscribers')
-);
+export const user = writable(userData,
+    () => console.log('userData', 'vlad rocks')
+)
 
 let accessToken = 'Bearer ' + localStorage.getItem('access') || ''
+
 export const token = writable(accessToken,
-    () => console.log(accessToken, 'no more subscribers')
-);
+    () => console.log(accessToken, 'vlad rocks')
+)
