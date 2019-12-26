@@ -1,11 +1,31 @@
 <script>
-    import Nav from "./components/Nav.svelte";
+    import { auth } from 'frontier-frontend'
+    import { Router, Navigate } from 'svelte-router-spa'
+    import { routes } from './routes'
 </script>
 
 <!--Template-->
 <main>
     <div class="container">
-        <Nav/>
+    {#if auth.user.id}
+            <nav class='m10 left'>
+                {#if auth.user.email}
+                    <span>{auth.user.email || ''}</span>
+                    <a href='/' on:click={trigger => auth.logout('/login')}>Logout</a>
+                {/if}
+            </nav>
+            <nav>
+                <Navigate to='/'>Home</Navigate>
+                <Navigate to='dashboard'>Dashboard</Navigate>
+                <Navigate to='example'>Example</Navigate>
+            </nav>
+    {:else}
+        <nav>
+            <Navigate to='/'>Home</Navigate>
+            <Navigate to='login'>Login</Navigate>
+        </nav>
+    {/if}
+        <Router {routes} />
     </div>
 </main>
 <style type="scss">

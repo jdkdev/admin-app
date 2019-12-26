@@ -1,7 +1,6 @@
 <script>
-    import { currentUser, ajax, ax } from '../../utl/app.js'
+    import { ajx } from 'frontier-frontend'
     import { onMount } from 'svelte'
-    import { navigate } from "svelte-routing"
     import { format, fromUnixTime } from 'date-fns'
 	import Field from '../../components/Field.svelte';
 
@@ -10,36 +9,33 @@
     let newUserView = false
 
     // move validation to some higher function so that mount becomes
-    // onMount(() => getUsers())
-    onMount(() => $currentUser.email ? getUsers() : navigate('/login'))
+    onMount(() => getUsers())
 
-    let getUsers = async function(event, withDeleted = '') {
-        let res = await ajax('GET', '/users' + withDeleted)
-        if (['denied','unauthorized'].includes(res.error))
-        return navigate("/login")
+    let getUsers = async function(withDeleted = '') {
+        let res = await ajx.get('/users' + withDeleted)
 
         users = res.filter(user => user.date_added !== null)
     }
 
     let deactivate = async function(id) {
-        let res = await ax.destroy('/users/' + id)
+        let res = await ajx.destroy('/users/' + id)
         users = res.ok ? users.filter(u => u.id !== id) : users
     }
 
     let reactivate = async function(id) {
-        let res = await ax.restore('/users/' + id)
+        let res = await ajx.restore('/users/' + id)
         users = users.map(u => (u.id === id) ? res : u)
     }
 
     let save = async function() {
-        let res = await ax.save('/users', user)
+        let res = await ajx.save('/users', user)
         users = res.error ? users : users.concat([res])
     }
 </script>
 
 <h1>Users</h1>
-<button on:click={trigger => getUsers(trigger, '/all')}>Show Deleted</button>
-<button on:click={getUsers}>Show Active</button>
+<button on:click={trigger => getUsers('/all')}>Show All</button>
+<button on:click={trigger => getUsers()}>Show Active</button>
 
 <button on:click={trigger => newUserView = !newUserView}>New</button>
 {#if newUserView}
@@ -62,7 +58,7 @@
                 <td>{user.is_deleted}</td>
                 <td>
                     {#if user.is_deleted}
-                        <button on:click={event => reactivate(user.id)}>Reactivate</button>
+                        <button on:click={trigger => reactivate(user.id)}>Reactivate</button>
                     {:else}
                         <button on:click={trigger => deactivate(user.id)}>Deactivate</button>
                     {/if}

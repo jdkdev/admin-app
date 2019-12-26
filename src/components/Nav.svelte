@@ -1,9 +1,9 @@
 <script>
     import { currentUser, logout } from '../utl/app.js'
     import { beforeUpdate, onMount, setContext, getContext } from 'svelte'
-    // switch to https://www.npmjs.com/package/svelte-spa-router or https://www.npmjs.com/package/svelte-router-spa
-	import { Router, Route } from 'svelte-routing'
-    import Sec from '../components/Sec.svelte'
+    import { Router } from 'svelte-router-spa'
+    // import { routes } from '../../routes'
+    // import Sec from '../components/Sec.svelte'
 	import NavLink from './NavLink.svelte'
 	import Home from '../routes/Home.svelte'
 	import Login from '../routes/Login.svelte'
@@ -16,7 +16,7 @@
 </script>
 
 <!--Template-->
-<Router {url}>
+<Router {url} >
     {#if $currentUser.id}
         <Sec>
             <nav class='m10 left'>
