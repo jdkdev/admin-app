@@ -1,8 +1,0 @@
-POST https://auth.knight.works/api/v1/login
-content-type: application/json
-
-{
-    "email": "test@email.com",
-    "password": "test"
-}
-###
