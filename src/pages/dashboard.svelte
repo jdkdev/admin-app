@@ -33,6 +33,7 @@
     }
 </script>
 
+<div class="o-container">
 <h1>Users</h1>
 <button on:click={trigger => getUsers('/all')}>Show All</button>
 <button on:click={trigger => getUsers()}>Show Active</button>
@@ -69,3 +70,4 @@
         {/each}
     </tbody>
 </table>
+</div>

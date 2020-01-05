@@ -2678,19 +2678,10 @@ var app = (function () {
     	let t0;
     	let t1;
     	let current;
-
-    	const header = new Header({
-    			props: { user: /*$currentUser*/ ctx[0] },
-    			$$inline: true
-    		});
-
+    	const header = new Header({ $$inline: true });
     	const default_slot_template = /*$$slots*/ ctx[6].default;
     	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[5], null);
-
-    	const footer = new Footer({
-    			props: { user: /*$currentUser*/ ctx[0] },
-    			$$inline: true
-    		});
+    	const footer = new Footer({ $$inline: true });
 
     	const block = {
     		c: function create() {
@@ -2716,17 +2707,9 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			const header_changes = {};
-    			if (dirty & /*$currentUser*/ 1) header_changes.user = /*$currentUser*/ ctx[0];
-    			header.$set(header_changes);
-
     			if (default_slot && default_slot.p && dirty & /*$$scope*/ 32) {
     				default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[5], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[5], dirty, null));
     			}
-
-    			const footer_changes = {};
-    			if (dirty & /*$currentUser*/ 1) footer_changes.user = /*$currentUser*/ ctx[0];
-    			footer.$set(footer_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -5777,7 +5760,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (41:0) {#if newUserView}
+    // (42:0) {#if newUserView}
     function create_if_block_1$2(ctx) {
     	let div;
     	let updating_value;
@@ -5840,8 +5823,8 @@ var app = (function () {
     			t2 = space();
     			button = element("button");
     			button.textContent = "Save";
-    			add_location(button, file$6, 45, 8, 1504);
-    			add_location(div, file$6, 41, 4, 1305);
+    			add_location(button, file$6, 46, 8, 1530);
+    			add_location(div, file$6, 42, 4, 1331);
     			dispose = listen_dev(button, "click", /*save*/ ctx[6], false, false, false);
     		},
     		m: function mount(target, anchor) {
@@ -5910,14 +5893,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$2.name,
     		type: "if",
-    		source: "(41:0) {#if newUserView}",
+    		source: "(42:0) {#if newUserView}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:8) {:else}
+    // (68:8) {:else}
     function create_else_block_1(ctx) {
     	let div;
 
@@ -5925,7 +5908,7 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			div.textContent = "No users found";
-    			add_location(div, file$6, 67, 12, 2238);
+    			add_location(div, file$6, 68, 12, 2264);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -5939,14 +5922,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(67:8) {:else}",
+    		source: "(68:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (62:20) {:else}
+    // (63:20) {:else}
     function create_else_block$4(ctx) {
     	let button;
     	let dispose;
@@ -5959,7 +5942,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Deactivate";
-    			add_location(button, file$6, 62, 24, 2074);
+    			add_location(button, file$6, 63, 24, 2100);
     			dispose = listen_dev(button, "click", click_handler_4, false, false, false);
     		},
     		m: function mount(target, anchor) {
@@ -5978,14 +5961,14 @@ var app = (function () {
     		block,
     		id: create_else_block$4.name,
     		type: "else",
-    		source: "(62:20) {:else}",
+    		source: "(63:20) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (60:20) {#if user.is_deleted}
+    // (61:20) {#if user.is_deleted}
     function create_if_block$5(ctx) {
     	let button;
     	let dispose;
@@ -5998,7 +5981,7 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Reactivate";
-    			add_location(button, file$6, 60, 24, 1952);
+    			add_location(button, file$6, 61, 24, 1978);
     			dispose = listen_dev(button, "click", click_handler_3, false, false, false);
     		},
     		m: function mount(target, anchor) {
@@ -6017,14 +6000,14 @@ var app = (function () {
     		block,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(60:20) {#if user.is_deleted}",
+    		source: "(61:20) {#if user.is_deleted}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:8) {#each users as user (user.id)}
+    // (53:8) {#each users as user (user.id)}
     function create_each_block$1(key_1, ctx) {
     	let tr;
     	let td0;
@@ -6081,13 +6064,13 @@ var app = (function () {
     			td5 = element("td");
     			if_block.c();
     			t10 = space();
-    			add_location(td0, file$6, 53, 16, 1653);
-    			add_location(td1, file$6, 54, 16, 1688);
-    			add_location(td2, file$6, 55, 16, 1726);
-    			add_location(td3, file$6, 56, 16, 1763);
-    			add_location(td4, file$6, 57, 16, 1838);
-    			add_location(td5, file$6, 58, 16, 1881);
-    			add_location(tr, file$6, 52, 12, 1632);
+    			add_location(td0, file$6, 54, 16, 1679);
+    			add_location(td1, file$6, 55, 16, 1714);
+    			add_location(td2, file$6, 56, 16, 1752);
+    			add_location(td3, file$6, 57, 16, 1789);
+    			add_location(td4, file$6, 58, 16, 1864);
+    			add_location(td5, file$6, 59, 16, 1907);
+    			add_location(tr, file$6, 53, 12, 1658);
     			this.first = tr;
     		},
     		m: function mount(target, anchor) {
@@ -6140,7 +6123,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(52:8) {#each users as user (user.id)}",
+    		source: "(53:8) {#each users as user (user.id)}",
     		ctx
     	});
 
@@ -6148,6 +6131,7 @@ var app = (function () {
     }
 
     function create_fragment$8(ctx) {
+    	let div;
     	let h1;
     	let t1;
     	let button0;
@@ -6182,6 +6166,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			h1 = element("h1");
     			h1.textContent = "Users";
     			t1 = space();
@@ -6203,12 +6188,14 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h1, file$6, 35, 0, 1070);
-    			add_location(button0, file$6, 36, 0, 1085);
-    			add_location(button1, file$6, 37, 0, 1150);
-    			add_location(button2, file$6, 39, 0, 1213);
-    			add_location(tbody, file$6, 50, 4, 1572);
-    			add_location(table, file$6, 49, 0, 1560);
+    			add_location(h1, file$6, 36, 0, 1096);
+    			add_location(button0, file$6, 37, 0, 1111);
+    			add_location(button1, file$6, 38, 0, 1176);
+    			add_location(button2, file$6, 40, 0, 1239);
+    			add_location(tbody, file$6, 51, 4, 1598);
+    			add_location(table, file$6, 50, 0, 1586);
+    			attr_dev(div, "class", "o-container");
+    			add_location(div, file$6, 35, 0, 1070);
 
     			dispose = [
     				listen_dev(button0, "click", /*click_handler*/ ctx[7], false, false, false),
@@ -6220,17 +6207,18 @@ var app = (function () {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
-    			insert_dev(target, t1, anchor);
-    			insert_dev(target, button0, anchor);
-    			insert_dev(target, t3, anchor);
-    			insert_dev(target, button1, anchor);
-    			insert_dev(target, t5, anchor);
-    			insert_dev(target, button2, anchor);
-    			insert_dev(target, t7, anchor);
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, t8, anchor);
-    			insert_dev(target, table, anchor);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, h1);
+    			append_dev(div, t1);
+    			append_dev(div, button0);
+    			append_dev(div, t3);
+    			append_dev(div, button1);
+    			append_dev(div, t5);
+    			append_dev(div, button2);
+    			append_dev(div, t7);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t8);
+    			append_dev(div, table);
     			append_dev(table, tbody);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -6252,7 +6240,7 @@ var app = (function () {
     					if_block = create_if_block_1$2(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
-    					if_block.m(t8.parentNode, t8);
+    					if_block.m(div, t8);
     				}
     			} else if (if_block) {
     				group_outros();
@@ -6288,17 +6276,8 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
-    			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(button0);
-    			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(button1);
-    			if (detaching) detach_dev(t5);
-    			if (detaching) detach_dev(button2);
-    			if (detaching) detach_dev(t7);
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(t8);
-    			if (detaching) detach_dev(table);
+    			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].d();

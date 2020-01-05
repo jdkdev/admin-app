@@ -14,6 +14,6 @@
 
 </script>
 
-<Header user={$currentUser} />
+<Header />
 <slot />
-<Footer user={$currentUser} />
+<Footer />
