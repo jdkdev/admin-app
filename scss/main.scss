@@ -26,6 +26,7 @@
 @import "_o-container";
 @import "_o-flex";
 @import "_o-grid";
+// @import "_o-table" maybe?;
 
 /* Components: separately styled components (buttons, form inputs, toolbars...)
    ========================================================================== */
@@ -46,6 +47,8 @@
 @import "_c-nav-mobile";
 @import "_c-nav-toggle";
 @import "_c-sticky-footer-layout";
+@import "_c-input";
+@import "_c-fieldset";
 
 /* Utilities: specific helper classes, overrides
    ========================================================================== */

@@ -583,6 +583,10 @@ var app = (function () {
         else
             dispatch_dev("SvelteDOMSetAttribute", { node, attribute, value });
     }
+    function prop_dev(node, property, value) {
+        node[property] = value;
+        dispatch_dev("SvelteDOMSetProperty", { node, property, value });
+    }
     function set_data_dev(text, data) {
         data = '' + data;
         if (text.data === data)
@@ -1524,8 +1528,8 @@ var app = (function () {
     }
 
     var _env = {
-        authUrl: 'https://auth.knight.works/api/v1/',
-        apiUrl: 'http://localhost:3001/api/v1/'
+        authUrl: 'http://localhost:3001/api/v1/login',
+        apiUrl: 'http://localhost:3001/api/v1'
     };
 
     /**
@@ -1534,7 +1538,10 @@ var app = (function () {
     * */
 
     let apiToken = writable(localStorage.getItem('access') || false, () => () => console.log('logout broken'));
-    let currentUser = writable(JSON.parse(localStorage.getItem('currentUser')) || false);
+    let userStorage = localStorage.getItem('currentUser') || false;
+    userStorage = JSON.parse(userStorage) || false;
+
+    let currentUser = writable(userStorage);
 
     let authorization;
     const tokenUnsubcribe = apiToken.subscribe(value => authorization = value);
@@ -1560,8 +1567,18 @@ var app = (function () {
 
         options = options ? {...options, ...defaultOpts} : defaultOpts;
         // console.log({options})
+
+        console.log('fetchData');
         let res = await fetch(fetchUrl, options);
-        return res.ok ? await res.json() : console.log({res})
+        console.log('fetched');
+
+        if ([401,403,500].includes(res.status)) {
+            logout();
+            return false
+        }
+
+        else return await res.json()
+        
     };
 
     /**
@@ -1579,21 +1596,28 @@ var app = (function () {
         // not sure if I will need to do this
         // params: method === 'GET' ? JSON.stringify(data) : '{}'
 
-            let res = await fetchData(url, opts);
-            if (['denied','unauthorized'].includes(res.error)) return logout('/')
-            else return res
+        console.log('ajax');
+        let res = await fetchData(url, opts);
+        //console.log({res})
+
+        if ([401,403,500].includes(res.status)) return logout('/')
+        else return res
     };
 
-    let get = function(url) {
+    const get = function(url) {
         return ajax(url)
     };
+
     const post = function(url, data) {
+
+            console.log('post');
         if (! data) return alert('Save Function must submit data')
 
         return ajax(url, data, {
             method: 'POST'
         })
     };
+
     /**
      * Alias for post function
      */
@@ -1606,11 +1630,13 @@ var app = (function () {
             method: 'DELETE'
         })
     };
+
     const patch = function(url) {
         return ajax(url, null, {
             method: 'PATCH'
         })
     };
+
     const restore = function(url) {
         return ajax(url + '/restore', null, {
             method: 'PATCH'
@@ -1636,25 +1662,33 @@ var app = (function () {
      *  */ 
     let authenticated = derived(currentUser, ($currentUser) => {
         //What is the best way to test for user logged in
-        console.log('currentUSer', currentUser);
-        console.log('currentUSer', $currentUser);
-        return 'hrllo'
+        return 'not ready'
     });
     let login = async function({email, password}, destination = '/', cb) {
         try {
-            const data = await post(_env.authUrl + 'login', {email, password});
-            apiToken.set(data.accessToken);
 
-            localStorage.setItem('access', data.accessToken);
-            localStorage.setItem('refresh', data.refreshToken);
-            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            console.log('begin');
+            let { accessToken = false, refreshToken = false, user = false} = await post(_env.authUrl, {email, password});
+            console.log('returned');
+
+            apiToken.set(accessToken);
+
+            localStorage.setItem('access', accessToken);
+            localStorage.setItem('refresh', refreshToken);
+
+            currentUser.set(user);
+            user = JSON.stringify(user) || false;
+            localStorage.setItem('currentUser', user);
             
-            currentUser.set(data.user);
-            return cb ? cb(destination) : document.location = destination
+
+            console.log('done');
+            if(accessToken) return cb ? cb(destination) : document.location = destination
+
         } catch (e) {
             console.error(e);
         }
     };
+
     let logout = function(destination = '/', cb) {
         ['access', 'refresh', 'currentUser'].map(i => localStorage.removeItem(i));
         authorization = false;
@@ -1675,7 +1709,6 @@ var app = (function () {
         logout,
         user,
     });
-    //export let auth = writable(...authx)
 
     var frontierFrontend = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -5190,7 +5223,47 @@ var app = (function () {
 
     const file$5 = "node_modules/frontier-components/Field.svelte";
 
-    // (20:8) {:else}
+    // (13:4) {#if label != 'display-none'}
+    function create_if_block_5(ctx) {
+    	let label_1;
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			label_1 = element("label");
+    			t = text(/*label*/ ctx[3]);
+    			attr_dev(label_1, "for", /*name*/ ctx[2]);
+    			attr_dev(label_1, "class", "svelte-1kt18kf");
+    			add_location(label_1, file$5, 13, 8, 321);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, label_1, anchor);
+    			append_dev(label_1, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*label*/ 8) set_data_dev(t, /*label*/ ctx[3]);
+
+    			if (dirty & /*name*/ 4) {
+    				attr_dev(label_1, "for", /*name*/ ctx[2]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(label_1);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_5.name,
+    		type: "if",
+    		source: "(13:4) {#if label != 'display-none'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (23:8) {:else}
     function create_else_block$3(ctx) {
     	let input;
     	let dispose;
@@ -5201,8 +5274,10 @@ var app = (function () {
     			attr_dev(input, "type", "text");
     			attr_dev(input, "name", /*name*/ ctx[2]);
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			add_location(input, file$5, 20, 12, 667);
-    			dispose = listen_dev(input, "input", /*input_input_handler_3*/ ctx[10]);
+    			input.required = /*required*/ ctx[7];
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 23, 8, 749);
+    			dispose = listen_dev(input, "input", /*input_input_handler_3*/ ctx[11]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5215,6 +5290,10 @@ var app = (function () {
 
     			if (dirty & /*placeholder*/ 16) {
     				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			}
+
+    			if (dirty & /*required*/ 128) {
+    				prop_dev(input, "required", /*required*/ ctx[7]);
     			}
 
     			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
@@ -5231,14 +5310,14 @@ var app = (function () {
     		block,
     		id: create_else_block$3.name,
     		type: "else",
-    		source: "(20:8) {:else}",
+    		source: "(23:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (18:36) 
+    // (21:36) 
     function create_if_block_4(ctx) {
     	let input;
     	let dispose;
@@ -5249,8 +5328,9 @@ var app = (function () {
     			attr_dev(input, "type", "hidden");
     			attr_dev(input, "name", /*name*/ ctx[2]);
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			add_location(input, file$5, 18, 12, 577);
-    			dispose = listen_dev(input, "input", /*input_input_handler_2*/ ctx[9]);
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 21, 12, 663);
+    			dispose = listen_dev(input, "input", /*input_input_handler_2*/ ctx[10]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5279,14 +5359,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(18:36) ",
+    		source: "(21:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (16:38) 
+    // (19:38) 
     function create_if_block_3(ctx) {
     	let input;
     	let dispose;
@@ -5297,8 +5377,10 @@ var app = (function () {
     			attr_dev(input, "type", "password");
     			attr_dev(input, "name", /*name*/ ctx[2]);
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			add_location(input, file$5, 16, 12, 464);
-    			dispose = listen_dev(input, "input", /*input_input_handler_1*/ ctx[8]);
+    			input.required = /*required*/ ctx[7];
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 19, 12, 547);
+    			dispose = listen_dev(input, "input", /*input_input_handler_1*/ ctx[9]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5311,6 +5393,10 @@ var app = (function () {
 
     			if (dirty & /*placeholder*/ 16) {
     				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			}
+
+    			if (dirty & /*required*/ 128) {
+    				prop_dev(input, "required", /*required*/ ctx[7]);
     			}
 
     			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
@@ -5327,14 +5413,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(16:38) ",
+    		source: "(19:38) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (14:8) {#if type === 'text'}
+    // (17:8) {#if type === 'text'}
     function create_if_block_2(ctx) {
     	let input;
     	let dispose;
@@ -5345,8 +5431,10 @@ var app = (function () {
     			attr_dev(input, "type", "text");
     			attr_dev(input, "name", /*name*/ ctx[2]);
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			add_location(input, file$5, 14, 12, 353);
-    			dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[7]);
+    			input.required = /*required*/ ctx[7];
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 17, 12, 433);
+    			dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[8]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5359,6 +5447,10 @@ var app = (function () {
 
     			if (dirty & /*placeholder*/ 16) {
     				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			}
+
+    			if (dirty & /*required*/ 128) {
+    				prop_dev(input, "required", /*required*/ ctx[7]);
     			}
 
     			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
@@ -5375,14 +5467,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(14:8) {#if type === 'text'}",
+    		source: "(17:8) {#if type === 'text'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (26:19) 
+    // (29:19) 
     function create_if_block_1$1(ctx) {
     	let p;
     	let t;
@@ -5392,7 +5484,7 @@ var app = (function () {
     			p = element("p");
     			t = text(/*help*/ ctx[6]);
     			attr_dev(p, "class", "help");
-    			add_location(p, file$5, 26, 8, 845);
+    			add_location(p, file$5, 29, 8, 938);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -5410,14 +5502,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(26:19) ",
+    		source: "(29:19) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (24:4) {#if errors.length}
+    // (27:4) {#if errors.length}
     function create_if_block$4(ctx) {
     	let p;
     	let t_value = /*errors*/ ctx[5][0] + "";
@@ -5428,7 +5520,7 @@ var app = (function () {
     			p = element("p");
     			t = text(t_value);
     			attr_dev(p, "class", "error");
-    			add_location(p, file$5, 24, 8, 784);
+    			add_location(p, file$5, 27, 8, 877);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -5446,7 +5538,7 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(24:4) {#if errors.length}",
+    		source: "(27:4) {#if errors.length}",
     		ctx
     	});
 
@@ -5455,11 +5547,10 @@ var app = (function () {
 
     function create_fragment$7(ctx) {
     	let fieldset;
-    	let label_1;
     	let t0;
-    	let t1;
     	let div;
-    	let t2;
+    	let t1;
+    	let if_block0 = /*label*/ ctx[3] != "display-none" && create_if_block_5(ctx);
 
     	function select_block_type(ctx, dirty) {
     		if (/*type*/ ctx[1] === "text") return create_if_block_2;
@@ -5469,7 +5560,7 @@ var app = (function () {
     	}
 
     	let current_block_type = select_block_type(ctx);
-    	let if_block0 = current_block_type(ctx);
+    	let if_block1 = current_block_type(ctx);
 
     	function select_block_type_1(ctx, dirty) {
     		if (/*errors*/ ctx[5].length) return create_if_block$4;
@@ -5477,67 +5568,69 @@ var app = (function () {
     	}
 
     	let current_block_type_1 = select_block_type_1(ctx);
-    	let if_block1 = current_block_type_1 && current_block_type_1(ctx);
+    	let if_block2 = current_block_type_1 && current_block_type_1(ctx);
 
     	const block = {
     		c: function create() {
     			fieldset = element("fieldset");
-    			label_1 = element("label");
-    			t0 = text(/*label*/ ctx[3]);
-    			t1 = space();
+    			if (if_block0) if_block0.c();
+    			t0 = space();
     			div = element("div");
-    			if_block0.c();
-    			t2 = space();
-    			if (if_block1) if_block1.c();
-    			attr_dev(label_1, "for", /*name*/ ctx[2]);
-    			attr_dev(label_1, "class", "svelte-jlbyh8");
-    			add_location(label_1, file$5, 11, 4, 251);
+    			if_block1.c();
+    			t1 = space();
+    			if (if_block2) if_block2.c();
     			attr_dev(div, "class", "control");
-    			add_location(div, file$5, 12, 4, 289);
+    			add_location(div, file$5, 15, 4, 369);
     			attr_dev(fieldset, "class", "field");
-    			add_location(fieldset, file$5, 10, 0, 222);
+    			add_location(fieldset, file$5, 11, 0, 254);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fieldset, anchor);
-    			append_dev(fieldset, label_1);
-    			append_dev(label_1, t0);
-    			append_dev(fieldset, t1);
+    			if (if_block0) if_block0.m(fieldset, null);
+    			append_dev(fieldset, t0);
     			append_dev(fieldset, div);
-    			if_block0.m(div, null);
-    			append_dev(fieldset, t2);
-    			if (if_block1) if_block1.m(fieldset, null);
+    			if_block1.m(div, null);
+    			append_dev(fieldset, t1);
+    			if (if_block2) if_block2.m(fieldset, null);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*label*/ 8) set_data_dev(t0, /*label*/ ctx[3]);
-
-    			if (dirty & /*name*/ 4) {
-    				attr_dev(label_1, "for", /*name*/ ctx[2]);
-    			}
-
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
-    				if_block0.p(ctx, dirty);
-    			} else {
-    				if_block0.d(1);
-    				if_block0 = current_block_type(ctx);
-
+    			if (/*label*/ ctx[3] != "display-none") {
     				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_5(ctx);
     					if_block0.c();
-    					if_block0.m(div, null);
+    					if_block0.m(fieldset, t0);
     				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
     			}
 
-    			if (current_block_type_1 === (current_block_type_1 = select_block_type_1(ctx)) && if_block1) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
     				if_block1.p(ctx, dirty);
     			} else {
-    				if (if_block1) if_block1.d(1);
-    				if_block1 = current_block_type_1 && current_block_type_1(ctx);
+    				if_block1.d(1);
+    				if_block1 = current_block_type(ctx);
 
     				if (if_block1) {
     					if_block1.c();
-    					if_block1.m(fieldset, null);
+    					if_block1.m(div, null);
+    				}
+    			}
+
+    			if (current_block_type_1 === (current_block_type_1 = select_block_type_1(ctx)) && if_block2) {
+    				if_block2.p(ctx, dirty);
+    			} else {
+    				if (if_block2) if_block2.d(1);
+    				if_block2 = current_block_type_1 && current_block_type_1(ctx);
+
+    				if (if_block2) {
+    					if_block2.c();
+    					if_block2.m(fieldset, null);
     				}
     			}
     		},
@@ -5545,10 +5638,11 @@ var app = (function () {
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(fieldset);
-    			if_block0.d();
+    			if (if_block0) if_block0.d();
+    			if_block1.d();
 
-    			if (if_block1) {
-    				if_block1.d();
+    			if (if_block2) {
+    				if_block2.d();
     			}
     		}
     	};
@@ -5572,7 +5666,8 @@ var app = (function () {
     	let { placeholder = name } = $$props;
     	let { errors = [] } = $$props;
     	let { help = "" } = $$props;
-    	const writable_props = ["type", "value", "name", "label", "placeholder", "errors", "help"];
+    	let { required = false } = $$props;
+    	const writable_props = ["type", "value", "name", "label", "placeholder", "errors", "help", "required"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Field> was created with unknown prop '${key}'`);
@@ -5606,6 +5701,7 @@ var app = (function () {
     		if ("placeholder" in $$props) $$invalidate(4, placeholder = $$props.placeholder);
     		if ("errors" in $$props) $$invalidate(5, errors = $$props.errors);
     		if ("help" in $$props) $$invalidate(6, help = $$props.help);
+    		if ("required" in $$props) $$invalidate(7, required = $$props.required);
     	};
 
     	$$self.$capture_state = () => {
@@ -5616,7 +5712,8 @@ var app = (function () {
     			label,
     			placeholder,
     			errors,
-    			help
+    			help,
+    			required
     		};
     	};
 
@@ -5628,6 +5725,7 @@ var app = (function () {
     		if ("placeholder" in $$props) $$invalidate(4, placeholder = $$props.placeholder);
     		if ("errors" in $$props) $$invalidate(5, errors = $$props.errors);
     		if ("help" in $$props) $$invalidate(6, help = $$props.help);
+    		if ("required" in $$props) $$invalidate(7, required = $$props.required);
     	};
 
     	return [
@@ -5638,6 +5736,7 @@ var app = (function () {
     		placeholder,
     		errors,
     		help,
+    		required,
     		input_input_handler,
     		input_input_handler_1,
     		input_input_handler_2,
@@ -5656,7 +5755,8 @@ var app = (function () {
     			label: 3,
     			placeholder: 4,
     			errors: 5,
-    			help: 6
+    			help: 6,
+    			required: 7
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -5731,6 +5831,14 @@ var app = (function () {
     	}
 
     	set help(value) {
+    		throw new Error("<Field>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get required() {
+    		throw new Error("<Field>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set required(value) {
     		throw new Error("<Field>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -6664,19 +6772,20 @@ var app = (function () {
     	let div2;
     	let div1;
     	let div0;
+    	let form;
     	let updating_value;
     	let t0;
     	let updating_value_1;
     	let t1;
-    	let input;
+    	let button;
     	let current;
     	let dispose;
 
     	function field0_value_binding(value) {
-    		/*field0_value_binding*/ ctx[4].call(null, value);
+    		/*field0_value_binding*/ ctx[5].call(null, value);
     	}
 
-    	let field0_props = { name: "email" };
+    	let field0_props = { name: "email", required: "true" };
 
     	if (/*email*/ ctx[0] !== void 0) {
     		field0_props.value = /*email*/ ctx[0];
@@ -6686,10 +6795,14 @@ var app = (function () {
     	binding_callbacks.push(() => bind(field0, "value", field0_value_binding));
 
     	function field1_value_binding(value_1) {
-    		/*field1_value_binding*/ ctx[5].call(null, value_1);
+    		/*field1_value_binding*/ ctx[6].call(null, value_1);
     	}
 
-    	let field1_props = { name: "password", type: "password" };
+    	let field1_props = {
+    		name: "password",
+    		type: "password",
+    		required: "true"
+    	};
 
     	if (/*password*/ ctx[1] !== void 0) {
     		field1_props.value = /*password*/ ctx[1];
@@ -6703,21 +6816,26 @@ var app = (function () {
     			div2 = element("div");
     			div1 = element("div");
     			div0 = element("div");
+    			form = element("form");
     			create_component(field0.$$.fragment);
     			t0 = space();
     			create_component(field1.$$.fragment);
     			t1 = space();
-    			input = element("input");
-    			attr_dev(input, "type", "submit");
-    			input.value = "Sign In";
-    			add_location(input, file$9, 14, 12, 453);
+    			button = element("button");
+    			button.textContent = "Sign In";
+    			add_location(button, file$9, 25, 12, 811);
+    			add_location(form, file$9, 22, 8, 631);
     			attr_dev(div0, "class", "");
-    			add_location(div0, file$9, 11, 8, 296);
+    			add_location(div0, file$9, 21, 8, 608);
     			attr_dev(div1, "class", "o-container o-flex o-flex--center");
-    			add_location(div1, file$9, 10, 4, 240);
+    			add_location(div1, file$9, 20, 4, 552);
     			attr_dev(div2, "class", "o-container-vertical");
-    			add_location(div2, file$9, 9, 0, 201);
-    			dispose = listen_dev(input, "click", /*click_handler*/ ctx[6], false, false, false);
+    			add_location(div2, file$9, 19, 0, 513);
+
+    			dispose = [
+    				listen_dev(button, "mouseenter", mouseenter_handler, false, false, false),
+    				listen_dev(button, "click", /*click_handler*/ ctx[7], false, false, false)
+    			];
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6726,11 +6844,12 @@ var app = (function () {
     			insert_dev(target, div2, anchor);
     			append_dev(div2, div1);
     			append_dev(div1, div0);
-    			mount_component(field0, div0, null);
-    			append_dev(div0, t0);
-    			mount_component(field1, div0, null);
-    			append_dev(div0, t1);
-    			append_dev(div0, input);
+    			append_dev(div0, form);
+    			mount_component(field0, form, null);
+    			append_dev(form, t0);
+    			mount_component(field1, form, null);
+    			append_dev(form, t1);
+    			append_dev(form, button);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
@@ -6768,7 +6887,7 @@ var app = (function () {
     			if (detaching) detach_dev(div2);
     			destroy_component(field0);
     			destroy_component(field1);
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -6783,15 +6902,22 @@ var app = (function () {
     	return block;
     }
 
+    const mouseenter_handler = event => event.target.form.reportValidity();
+
     function instance$b($$self, $$props, $$invalidate) {
     	let $auth;
     	let $goto;
     	validate_store(frontierFrontend_1, "auth");
-    	component_subscribe($$self, frontierFrontend_1, $$value => $$invalidate(2, $auth = $$value));
+    	component_subscribe($$self, frontierFrontend_1, $$value => $$invalidate(3, $auth = $$value));
     	validate_store(goto, "goto");
-    	component_subscribe($$self, goto, $$value => $$invalidate(3, $goto = $$value));
+    	component_subscribe($$self, goto, $$value => $$invalidate(4, $goto = $$value));
     	let email = "";
     	let password = "";
+
+    	function login(event) {
+    		event.preventDefault();
+    		if (event.target.form.reportValidity()) $auth.login({ email, password }, "/", $goto);
+    	}
 
     	function field0_value_binding(value) {
     		email = value;
@@ -6803,7 +6929,7 @@ var app = (function () {
     		$$invalidate(1, password);
     	}
 
-    	const click_handler = trigger => $auth.login({ email, password }, "/", $goto);
+    	const click_handler = trigger => login(trigger);
 
     	$$self.$capture_state = () => {
     		return {};
@@ -6819,6 +6945,7 @@ var app = (function () {
     	return [
     		email,
     		password,
+    		login,
     		$auth,
     		$goto,
     		field0_value_binding,

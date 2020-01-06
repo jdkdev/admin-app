@@ -460,7 +460,7 @@ img {
 /* ==========================================================================
   c-btn
    ========================================================================== */
-.c-btn {
+button, .c-btn {
   white-space: nowrap;
   display: inline-block;
   color: #000;
@@ -471,18 +471,18 @@ img {
   font-weight: 400;
   border: none !important; }
   @media (prefers-color-scheme: dark) {
-    .c-btn {
+    button, .c-btn {
       color: #FFF; } }
   @media (prefers-color-scheme: dark) {
-    .c-btn {
+    button, .c-btn {
       background: rgba(255, 255, 255, 0.2); } }
-  .c-btn:hover, .c-btn:focus {
+  button:hover, button:focus, .c-btn:hover, .c-btn:focus {
     background: rgba(0, 0, 0, 0.4);
     transition: 0.17s background ease-in-out; }
     @media (prefers-color-scheme: dark) {
-      .c-btn:hover, .c-btn:focus {
+      button:hover, button:focus, .c-btn:hover, .c-btn:focus {
         background: rgba(255, 255, 255, 0.4); } }
-  .c-btn--lg {
+  button--lg, .c-btn--lg {
     padding: 1.4rem 2.1rem;
     font-size: 1.9rem; }
 
@@ -871,6 +871,29 @@ img {
 
 .c-sticky-footer-layout__item-inner-center {
   margin: auto; }
+
+/* ==========================================================================
+  c-input
+   ========================================================================== */
+input, .input {
+  line-height: 1.5;
+  margin: 0;
+  height: 2.1em;
+  padding: .3em .6em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: .2em;
+  transition: all 0.3s;
+  width: 100%; }
+  input:focus, .input:focus {
+    border: 1px solid #333;
+    outline: 0; }
+
+/* ==========================================================================
+  c-fieldset
+   ========================================================================== */
+fieldset, .field {
+  padding-bottom: .6em; }
 
 /* Utilities: specific helper classes, overrides
    ========================================================================== */
