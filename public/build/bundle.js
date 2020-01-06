@@ -1715,7 +1715,7 @@ var app = (function () {
     			div = element("div");
     			p = element("p");
     			a = element("a");
-    			a.textContent = "Admin App";
+    			a.textContent = "Admin Portal";
     			t1 = space();
     			if (default_slot) default_slot.c();
     			attr_dev(a, "href", "/");
@@ -2294,8 +2294,9 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			header = element("header");
-    			header.textContent = "Knightworks Admin";
-    			add_location(header, file$3, 20, 4, 526);
+    			header.textContent = "Knightworks";
+    			attr_dev(header, "class", "c-header");
+    			add_location(header, file$3, 20, 4, 497);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, header, anchor);
@@ -2346,11 +2347,11 @@ var app = (function () {
     			t = space();
     			create_component(nav.$$.fragment);
     			attr_dev(div0, "class", "c-nav-logo-holder");
-    			add_location(div0, file$3, 11, 8, 331);
+    			add_location(div0, file$3, 11, 8, 302);
     			attr_dev(div1, "class", "o-container");
-    			add_location(div1, file$3, 10, 4, 297);
+    			add_location(div1, file$3, 10, 4, 268);
     			attr_dev(header, "class", "c-header");
-    			add_location(header, file$3, 9, 4, 267);
+    			add_location(header, file$3, 9, 4, 238);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, header, anchor);
@@ -2409,7 +2410,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$3, 13, 16, 399);
+    			add_location(span, file$3, 13, 16, 370);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -2518,7 +2519,6 @@ var app = (function () {
     	let $currentUser;
     	validate_store(frontierFrontend_3, "currentUser");
     	component_subscribe($$self, frontierFrontend_3, $$value => $$invalidate(0, $currentUser = $$value));
-    	console.log($currentUser);
 
     	$$self.$capture_state = () => {
     		return {};
@@ -6710,13 +6710,13 @@ var app = (function () {
     			input = element("input");
     			attr_dev(input, "type", "submit");
     			input.value = "Sign In";
-    			add_location(input, file$9, 14, 12, 479);
+    			add_location(input, file$9, 14, 12, 453);
     			attr_dev(div0, "class", "");
-    			add_location(div0, file$9, 11, 8, 322);
+    			add_location(div0, file$9, 11, 8, 296);
     			attr_dev(div1, "class", "o-container o-flex o-flex--center");
-    			add_location(div1, file$9, 10, 4, 266);
+    			add_location(div1, file$9, 10, 4, 240);
     			attr_dev(div2, "class", "o-container-vertical");
-    			add_location(div2, file$9, 9, 0, 227);
+    			add_location(div2, file$9, 9, 0, 201);
     			dispose = listen_dev(input, "click", /*click_handler*/ ctx[6], false, false, false);
     		},
     		l: function claim(nodes) {
@@ -6790,8 +6790,8 @@ var app = (function () {
     	component_subscribe($$self, frontierFrontend_1, $$value => $$invalidate(2, $auth = $$value));
     	validate_store(goto, "goto");
     	component_subscribe($$self, goto, $$value => $$invalidate(3, $goto = $$value));
-    	let email = "jordan+10@knight.works";
-    	let password = "test";
+    	let email = "";
+    	let password = "";
 
     	function field0_value_binding(value) {
     		email = value;

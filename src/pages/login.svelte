@@ -3,10 +3,10 @@
     import { Field } from 'frontier-components'
     import { goto } from '@sveltech/routify';
 
-    let email = 'jordan+10@knight.works'
-    let password = 'test'
-
+    let email = ''
+    let password = ''
 </script>
+
 <div class="o-container-vertical">
     <div class="o-container o-flex o-flex--center">
         <div class="">

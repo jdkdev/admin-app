@@ -3,9 +3,9 @@
     import Brand from '$c/Brand.svelte'
     import Nav from '$c/Nav.svelte'
     import { isActive, url, goto } from '@sveltech/routify'
-    console.log($currentUser)
 
 </script>
+
 {#if $currentUser}
     <header class="c-header">
     <div class="o-container">
@@ -18,5 +18,7 @@
     </div>
     </header>
 {:else}
-    <header>Knightworks Admin</header>
+    <header class="c-header">
+        Knightworks
+    </header>
 {/if}

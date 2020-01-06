@@ -1,4 +1,4 @@
 <div class="c-brand">
-    <p><a href="/">Admin App</a></p>
+    <p><a href="/">Admin Portal</a></p>
     <slot></slot>
 </div>

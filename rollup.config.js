@@ -6,7 +6,6 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
-import html from '@rollup/plugin-html'
 import sass from 'node-sass';
 
 
@@ -22,7 +21,6 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
-        html({filename: 'jordan-testscript'}),
         replace({ 
             __AUTH_URL__: 'https://auth.knight.works/api/v1/', 
             __API_URL__: 'http://localhost:3001/api/v1/', 
