@@ -1528,7 +1528,7 @@ var app = (function () {
     }
 
     var _env = {
-        authUrl: 'http://localhost:3001/api/v1/login',
+        authUrl: 'https://auth.knight.works/api/v1/login',
         apiUrl: 'http://localhost:3001/api/v1'
     };
 
@@ -1573,7 +1573,7 @@ var app = (function () {
         console.log('fetched');
 
         if ([401,403,500].includes(res.status)) {
-            logout();
+            logout(null, null, res);
             return false
         }
 
@@ -1689,12 +1689,14 @@ var app = (function () {
         }
     };
 
-    let logout = function(destination = '/', cb) {
+    let logout = function(destination = '/', cb, response = null) {
+
         ['access', 'refresh', 'currentUser'].map(i => localStorage.removeItem(i));
         authorization = false;
         currentUser.set(false);
         //Need ajax to kill refresh token
 
+        console.log('logging out', {response});
         return cb ? cb(destination) : document.location = destination
     };
 
@@ -5223,47 +5225,7 @@ var app = (function () {
 
     const file$5 = "node_modules/frontier-components/Field.svelte";
 
-    // (13:4) {#if label != 'display-none'}
-    function create_if_block_5(ctx) {
-    	let label_1;
-    	let t;
-
-    	const block = {
-    		c: function create() {
-    			label_1 = element("label");
-    			t = text(/*label*/ ctx[3]);
-    			attr_dev(label_1, "for", /*name*/ ctx[2]);
-    			attr_dev(label_1, "class", "svelte-1kt18kf");
-    			add_location(label_1, file$5, 13, 8, 321);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, label_1, anchor);
-    			append_dev(label_1, t);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*label*/ 8) set_data_dev(t, /*label*/ ctx[3]);
-
-    			if (dirty & /*name*/ 4) {
-    				attr_dev(label_1, "for", /*name*/ ctx[2]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(label_1);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_5.name,
-    		type: "if",
-    		source: "(13:4) {#if label != 'display-none'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (23:8) {:else}
+    // (22:8) {:else}
     function create_else_block$3(ctx) {
     	let input;
     	let dispose;
@@ -5276,8 +5238,8 @@ var app = (function () {
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
     			input.required = /*required*/ ctx[7];
     			attr_dev(input, "class", "svelte-1kt18kf");
-    			add_location(input, file$5, 23, 8, 749);
-    			dispose = listen_dev(input, "input", /*input_input_handler_3*/ ctx[11]);
+    			add_location(input, file$5, 22, 8, 775);
+    			dispose = listen_dev(input, "input", /*input_input_handler_4*/ ctx[12]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5310,15 +5272,15 @@ var app = (function () {
     		block,
     		id: create_else_block$3.name,
     		type: "else",
-    		source: "(23:8) {:else}",
+    		source: "(22:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (21:36) 
-    function create_if_block_4(ctx) {
+    // (20:36) 
+    function create_if_block_6(ctx) {
     	let input;
     	let dispose;
 
@@ -5329,8 +5291,8 @@ var app = (function () {
     			attr_dev(input, "name", /*name*/ ctx[2]);
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
     			attr_dev(input, "class", "svelte-1kt18kf");
-    			add_location(input, file$5, 21, 12, 663);
-    			dispose = listen_dev(input, "input", /*input_input_handler_2*/ ctx[10]);
+    			add_location(input, file$5, 20, 12, 689);
+    			dispose = listen_dev(input, "input", /*input_input_handler_3*/ ctx[11]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5357,17 +5319,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_4.name,
+    		id: create_if_block_6.name,
     		type: "if",
-    		source: "(21:36) ",
+    		source: "(20:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (19:38) 
-    function create_if_block_3(ctx) {
+    // (18:38) 
+    function create_if_block_5(ctx) {
     	let input;
     	let dispose;
 
@@ -5379,8 +5341,116 @@ var app = (function () {
     			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
     			input.required = /*required*/ ctx[7];
     			attr_dev(input, "class", "svelte-1kt18kf");
-    			add_location(input, file$5, 19, 12, 547);
+    			add_location(input, file$5, 18, 12, 573);
+    			dispose = listen_dev(input, "input", /*input_input_handler_2*/ ctx[10]);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, input, anchor);
+    			set_input_value(input, /*value*/ ctx[0]);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*name*/ 4) {
+    				attr_dev(input, "name", /*name*/ ctx[2]);
+    			}
+
+    			if (dirty & /*placeholder*/ 16) {
+    				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			}
+
+    			if (dirty & /*required*/ 128) {
+    				prop_dev(input, "required", /*required*/ ctx[7]);
+    			}
+
+    			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
+    				set_input_value(input, /*value*/ ctx[0]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(input);
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_5.name,
+    		type: "if",
+    		source: "(18:38) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (16:35) 
+    function create_if_block_4(ctx) {
+    	let input;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			input = element("input");
+    			attr_dev(input, "type", "email");
+    			attr_dev(input, "name", /*name*/ ctx[2]);
+    			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			input.required = /*required*/ ctx[7];
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 16, 12, 458);
     			dispose = listen_dev(input, "input", /*input_input_handler_1*/ ctx[9]);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, input, anchor);
+    			set_input_value(input, /*value*/ ctx[0]);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*name*/ 4) {
+    				attr_dev(input, "name", /*name*/ ctx[2]);
+    			}
+
+    			if (dirty & /*placeholder*/ 16) {
+    				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			}
+
+    			if (dirty & /*required*/ 128) {
+    				prop_dev(input, "required", /*required*/ ctx[7]);
+    			}
+
+    			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
+    				set_input_value(input, /*value*/ ctx[0]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(input);
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_4.name,
+    		type: "if",
+    		source: "(16:35) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (14:8) {#if type === 'text'}
+    function create_if_block_3(ctx) {
+    	let input;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			input = element("input");
+    			attr_dev(input, "type", "text");
+    			attr_dev(input, "name", /*name*/ ctx[2]);
+    			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
+    			input.required = /*required*/ ctx[7];
+    			attr_dev(input, "class", "svelte-1kt18kf");
+    			add_location(input, file$5, 14, 12, 347);
+    			dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[8]);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -5413,53 +5483,39 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(19:38) ",
+    		source: "(14:8) {#if type === 'text'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (17:8) {#if type === 'text'}
+    // (25:8) {#if label != 'display-none'}
     function create_if_block_2(ctx) {
-    	let input;
-    	let dispose;
+    	let label_1;
+    	let t;
 
     	const block = {
     		c: function create() {
-    			input = element("input");
-    			attr_dev(input, "type", "text");
-    			attr_dev(input, "name", /*name*/ ctx[2]);
-    			attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			input.required = /*required*/ ctx[7];
-    			attr_dev(input, "class", "svelte-1kt18kf");
-    			add_location(input, file$5, 17, 12, 433);
-    			dispose = listen_dev(input, "input", /*input_input_handler*/ ctx[8]);
+    			label_1 = element("label");
+    			t = text(/*label*/ ctx[3]);
+    			attr_dev(label_1, "for", /*name*/ ctx[2]);
+    			attr_dev(label_1, "class", "svelte-1kt18kf");
+    			add_location(label_1, file$5, 25, 12, 910);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, input, anchor);
-    			set_input_value(input, /*value*/ ctx[0]);
+    			insert_dev(target, label_1, anchor);
+    			append_dev(label_1, t);
     		},
     		p: function update(ctx, dirty) {
+    			if (dirty & /*label*/ 8) set_data_dev(t, /*label*/ ctx[3]);
+
     			if (dirty & /*name*/ 4) {
-    				attr_dev(input, "name", /*name*/ ctx[2]);
-    			}
-
-    			if (dirty & /*placeholder*/ 16) {
-    				attr_dev(input, "placeholder", /*placeholder*/ ctx[4]);
-    			}
-
-    			if (dirty & /*required*/ 128) {
-    				prop_dev(input, "required", /*required*/ ctx[7]);
-    			}
-
-    			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
-    				set_input_value(input, /*value*/ ctx[0]);
+    				attr_dev(label_1, "for", /*name*/ ctx[2]);
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(input);
-    			dispose();
+    			if (detaching) detach_dev(label_1);
     		}
     	};
 
@@ -5467,14 +5523,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(17:8) {#if type === 'text'}",
+    		source: "(25:8) {#if label != 'display-none'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (29:19) 
+    // (31:19) 
     function create_if_block_1$1(ctx) {
     	let p;
     	let t;
@@ -5484,7 +5540,7 @@ var app = (function () {
     			p = element("p");
     			t = text(/*help*/ ctx[6]);
     			attr_dev(p, "class", "help");
-    			add_location(p, file$5, 29, 8, 938);
+    			add_location(p, file$5, 31, 8, 1062);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -5502,14 +5558,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(29:19) ",
+    		source: "(31:19) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (27:4) {#if errors.length}
+    // (29:4) {#if errors.length}
     function create_if_block$4(ctx) {
     	let p;
     	let t_value = /*errors*/ ctx[5][0] + "";
@@ -5520,7 +5576,7 @@ var app = (function () {
     			p = element("p");
     			t = text(t_value);
     			attr_dev(p, "class", "error");
-    			add_location(p, file$5, 27, 8, 877);
+    			add_location(p, file$5, 29, 8, 1001);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -5538,7 +5594,7 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(27:4) {#if errors.length}",
+    		source: "(29:4) {#if errors.length}",
     		ctx
     	});
 
@@ -5547,20 +5603,21 @@ var app = (function () {
 
     function create_fragment$7(ctx) {
     	let fieldset;
-    	let t0;
     	let div;
+    	let t0;
     	let t1;
-    	let if_block0 = /*label*/ ctx[3] != "display-none" && create_if_block_5(ctx);
 
     	function select_block_type(ctx, dirty) {
-    		if (/*type*/ ctx[1] === "text") return create_if_block_2;
-    		if (/*type*/ ctx[1] === "password") return create_if_block_3;
-    		if (/*type*/ ctx[1] === "hidden") return create_if_block_4;
+    		if (/*type*/ ctx[1] === "text") return create_if_block_3;
+    		if (/*type*/ ctx[1] === "email") return create_if_block_4;
+    		if (/*type*/ ctx[1] === "password") return create_if_block_5;
+    		if (/*type*/ ctx[1] === "hidden") return create_if_block_6;
     		return create_else_block$3;
     	}
 
     	let current_block_type = select_block_type(ctx);
-    	let if_block1 = current_block_type(ctx);
+    	let if_block0 = current_block_type(ctx);
+    	let if_block1 = /*label*/ ctx[3] != "display-none" && create_if_block_2(ctx);
 
     	function select_block_type_1(ctx, dirty) {
     		if (/*errors*/ ctx[5].length) return create_if_block$4;
@@ -5573,14 +5630,14 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			fieldset = element("fieldset");
-    			if (if_block0) if_block0.c();
-    			t0 = space();
     			div = element("div");
-    			if_block1.c();
+    			if_block0.c();
+    			t0 = space();
+    			if (if_block1) if_block1.c();
     			t1 = space();
     			if (if_block2) if_block2.c();
     			attr_dev(div, "class", "control");
-    			add_location(div, file$5, 15, 4, 369);
+    			add_location(div, file$5, 12, 4, 283);
     			attr_dev(fieldset, "class", "field");
     			add_location(fieldset, file$5, 11, 0, 254);
     		},
@@ -5589,37 +5646,37 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, fieldset, anchor);
-    			if (if_block0) if_block0.m(fieldset, null);
-    			append_dev(fieldset, t0);
     			append_dev(fieldset, div);
-    			if_block1.m(div, null);
+    			if_block0.m(div, null);
+    			append_dev(div, t0);
+    			if (if_block1) if_block1.m(div, null);
     			append_dev(fieldset, t1);
     			if (if_block2) if_block2.m(fieldset, null);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*label*/ ctx[3] != "display-none") {
-    				if (if_block0) {
-    					if_block0.p(ctx, dirty);
-    				} else {
-    					if_block0 = create_if_block_5(ctx);
-    					if_block0.c();
-    					if_block0.m(fieldset, t0);
-    				}
-    			} else if (if_block0) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block0) {
+    				if_block0.p(ctx, dirty);
+    			} else {
     				if_block0.d(1);
-    				if_block0 = null;
+    				if_block0 = current_block_type(ctx);
+
+    				if (if_block0) {
+    					if_block0.c();
+    					if_block0.m(div, t0);
+    				}
     			}
 
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
-    				if_block1.p(ctx, dirty);
-    			} else {
-    				if_block1.d(1);
-    				if_block1 = current_block_type(ctx);
-
+    			if (/*label*/ ctx[3] != "display-none") {
     				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block_2(ctx);
     					if_block1.c();
     					if_block1.m(div, null);
     				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
     			}
 
     			if (current_block_type_1 === (current_block_type_1 = select_block_type_1(ctx)) && if_block2) {
@@ -5638,8 +5695,8 @@ var app = (function () {
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(fieldset);
-    			if (if_block0) if_block0.d();
-    			if_block1.d();
+    			if_block0.d();
+    			if (if_block1) if_block1.d();
 
     			if (if_block2) {
     				if_block2.d();
@@ -5693,6 +5750,11 @@ var app = (function () {
     		$$invalidate(0, value);
     	}
 
+    	function input_input_handler_4() {
+    		value = this.value;
+    		$$invalidate(0, value);
+    	}
+
     	$$self.$set = $$props => {
     		if ("type" in $$props) $$invalidate(1, type = $$props.type);
     		if ("value" in $$props) $$invalidate(0, value = $$props.value);
@@ -5740,7 +5802,8 @@ var app = (function () {
     		input_input_handler,
     		input_input_handler_1,
     		input_input_handler_2,
-    		input_input_handler_3
+    		input_input_handler_3,
+    		input_input_handler_4
     	];
     }
 
@@ -6772,7 +6835,7 @@ var app = (function () {
     	let div2;
     	let div1;
     	let div0;
-    	let form;
+    	let form_1;
     	let updating_value;
     	let t0;
     	let updating_value_1;
@@ -6782,20 +6845,24 @@ var app = (function () {
     	let dispose;
 
     	function field0_value_binding(value) {
-    		/*field0_value_binding*/ ctx[5].call(null, value);
+    		/*field0_value_binding*/ ctx[4].call(null, value);
     	}
 
-    	let field0_props = { name: "email", required: "true" };
+    	let field0_props = {
+    		name: "email",
+    		type: "email",
+    		required: "true"
+    	};
 
-    	if (/*email*/ ctx[0] !== void 0) {
-    		field0_props.value = /*email*/ ctx[0];
+    	if (/*form*/ ctx[0].email !== void 0) {
+    		field0_props.value = /*form*/ ctx[0].email;
     	}
 
     	const field0 = new frontierComponents_1({ props: field0_props, $$inline: true });
     	binding_callbacks.push(() => bind(field0, "value", field0_value_binding));
 
     	function field1_value_binding(value_1) {
-    		/*field1_value_binding*/ ctx[6].call(null, value_1);
+    		/*field1_value_binding*/ ctx[5].call(null, value_1);
     	}
 
     	let field1_props = {
@@ -6804,8 +6871,8 @@ var app = (function () {
     		required: "true"
     	};
 
-    	if (/*password*/ ctx[1] !== void 0) {
-    		field1_props.value = /*password*/ ctx[1];
+    	if (/*form*/ ctx[0].password !== void 0) {
+    		field1_props.value = /*form*/ ctx[0].password;
     	}
 
     	const field1 = new frontierComponents_1({ props: field1_props, $$inline: true });
@@ -6816,25 +6883,25 @@ var app = (function () {
     			div2 = element("div");
     			div1 = element("div");
     			div0 = element("div");
-    			form = element("form");
+    			form_1 = element("form");
     			create_component(field0.$$.fragment);
     			t0 = space();
     			create_component(field1.$$.fragment);
     			t1 = space();
     			button = element("button");
     			button.textContent = "Sign In";
-    			add_location(button, file$9, 25, 12, 811);
-    			add_location(form, file$9, 22, 8, 631);
+    			add_location(button, file$9, 40, 12, 1319);
+    			add_location(form_1, file$9, 37, 8, 1116);
     			attr_dev(div0, "class", "");
-    			add_location(div0, file$9, 21, 8, 608);
+    			add_location(div0, file$9, 36, 8, 1093);
     			attr_dev(div1, "class", "o-container o-flex o-flex--center");
-    			add_location(div1, file$9, 20, 4, 552);
+    			add_location(div1, file$9, 35, 4, 1037);
     			attr_dev(div2, "class", "o-container-vertical");
-    			add_location(div2, file$9, 19, 0, 513);
+    			add_location(div2, file$9, 34, 0, 998);
 
     			dispose = [
-    				listen_dev(button, "mouseenter", mouseenter_handler, false, false, false),
-    				listen_dev(button, "click", /*click_handler*/ ctx[7], false, false, false)
+    				listen_dev(button, "mouseenter", checkForm, false, false, false),
+    				listen_dev(button, "click", /*login*/ ctx[1], false, false, false)
     			];
     		},
     		l: function claim(nodes) {
@@ -6844,29 +6911,29 @@ var app = (function () {
     			insert_dev(target, div2, anchor);
     			append_dev(div2, div1);
     			append_dev(div1, div0);
-    			append_dev(div0, form);
-    			mount_component(field0, form, null);
-    			append_dev(form, t0);
-    			mount_component(field1, form, null);
-    			append_dev(form, t1);
-    			append_dev(form, button);
+    			append_dev(div0, form_1);
+    			mount_component(field0, form_1, null);
+    			append_dev(form_1, t0);
+    			mount_component(field1, form_1, null);
+    			append_dev(form_1, t1);
+    			append_dev(form_1, button);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
     			const field0_changes = {};
 
-    			if (!updating_value && dirty & /*email*/ 1) {
+    			if (!updating_value && dirty & /*form*/ 1) {
     				updating_value = true;
-    				field0_changes.value = /*email*/ ctx[0];
+    				field0_changes.value = /*form*/ ctx[0].email;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			field0.$set(field0_changes);
     			const field1_changes = {};
 
-    			if (!updating_value_1 && dirty & /*password*/ 2) {
+    			if (!updating_value_1 && dirty & /*form*/ 1) {
     				updating_value_1 = true;
-    				field1_changes.value = /*password*/ ctx[1];
+    				field1_changes.value = /*form*/ ctx[0].password;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
@@ -6902,56 +6969,59 @@ var app = (function () {
     	return block;
     }
 
-    const mouseenter_handler = event => event.target.form.reportValidity();
+    function checkForm(e) {
+    	let target = e.target, form;
+
+    	while (!form) {
+    		if (target.tagName === "FORM") form = target; else target.tagName === "BODY"
+    		? form = "not found"
+    		: target = target.parentElement;
+    	}
+
+    	for (let el of form) {
+    		if (el.willValidate && !el.checkValidity()) return el.reportValidity();
+    	}
+    }
 
     function instance$b($$self, $$props, $$invalidate) {
     	let $auth;
     	let $goto;
     	validate_store(frontierFrontend_1, "auth");
-    	component_subscribe($$self, frontierFrontend_1, $$value => $$invalidate(3, $auth = $$value));
+    	component_subscribe($$self, frontierFrontend_1, $$value => $$invalidate(2, $auth = $$value));
     	validate_store(goto, "goto");
-    	component_subscribe($$self, goto, $$value => $$invalidate(4, $goto = $$value));
-    	let email = "";
-    	let password = "";
+    	component_subscribe($$self, goto, $$value => $$invalidate(3, $goto = $$value));
+    	let form = {};
 
-    	function login(event) {
-    		event.preventDefault();
-    		if (event.target.form.reportValidity()) $auth.login({ email, password }, "/", $goto);
+    	onMount(() => {
+    		$$invalidate(0, form = { email: "", password: "" });
+    	});
+
+    	function login(e) {
+    		e.preventDefault();
+    		if (e.target.form.reportValidity()) $auth.login(form, "/", $goto);
     	}
 
     	function field0_value_binding(value) {
-    		email = value;
-    		$$invalidate(0, email);
+    		form.email = value;
+    		$$invalidate(0, form);
     	}
 
     	function field1_value_binding(value_1) {
-    		password = value_1;
-    		$$invalidate(1, password);
+    		form.password = value_1;
+    		$$invalidate(0, form);
     	}
-
-    	const click_handler = trigger => login(trigger);
 
     	$$self.$capture_state = () => {
     		return {};
     	};
 
     	$$self.$inject_state = $$props => {
-    		if ("email" in $$props) $$invalidate(0, email = $$props.email);
-    		if ("password" in $$props) $$invalidate(1, password = $$props.password);
+    		if ("form" in $$props) $$invalidate(0, form = $$props.form);
     		if ("$auth" in $$props) frontierFrontend_1.set($auth = $$props.$auth);
     		if ("$goto" in $$props) goto.set($goto = $$props.$goto);
     	};
 
-    	return [
-    		email,
-    		password,
-    		login,
-    		$auth,
-    		$goto,
-    		field0_value_binding,
-    		field1_value_binding,
-    		click_handler
-    	];
+    	return [form, login, $auth, $goto, field0_value_binding, field1_value_binding];
     }
 
     class Login extends SvelteComponentDev {

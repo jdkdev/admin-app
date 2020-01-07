@@ -49,3 +49,11 @@ table {
 	border-spacing: 0;
 }
 
+
+input:required {
+    box-shadow: none;
+}
+
+input:invalid {
+    box-shadow: none;
+}

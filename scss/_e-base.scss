@@ -76,3 +76,16 @@ img {
     filter: brightness(0.9) contrast(1.1);
   }
 }
+
+@mixin box-shadow($shadow...) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;       
+    box-shadow: $shadow;
+}
+
+@mixin transition($attr, $duration, $timing) {
+    -webkit-transition: $attr $duration $timing;
+    -moz-transition: $attr $duration $timing;
+    -o-transition: $attr $duration $timing;
+    transition: $attr $duration $timing;
+}

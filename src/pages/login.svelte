@@ -1,19 +1,34 @@
 <script>
+    import { onMount } from 'svelte'
     import { auth } from 'frontier-frontend'
-    import { Field } from 'frontier-components'
+    import { Field} from 'frontier-components'
     import { goto } from '@sveltech/routify';
 
-    let email = ''
-    let password = ''
-    function checkForm(event) {
-        event.target.form.reportValidity()
+    let form = {}
+
+    onMount(() => {
+        form = {email: '', password: ''} 
+    })
+
+    function checkForm(e) {
+        //currently only checks one at a time
+        let target = e.target, form
+        while (!form) {
+            if (target.tagName === 'FORM') form = target
+            else target.tagName === 'BODY' ? form = 'not found' : target = target.parentElement
+        }
+        
+        for (let el of form) {
+            if (el.willValidate && ! el.checkValidity()) return el.reportValidity()
+        }
     }
 
-    function login(event) {
-        event.preventDefault()
+    function login(e) {
+        e.preventDefault()
         //TODO if (event.target.valid) //add to frontier-frontend
-        if (event.target.form.reportValidity())
-        $auth.login({email, password}, '/', $goto)
+        // if (e.target.form.reportValidity()) $auth.login(form, '/', $goto)
+        if (e.target.form.reportValidity()) $auth.login(form, '/', $goto)
+
     }
 </script>
 
@@ -21,10 +36,12 @@
     <div class="o-container o-flex o-flex--center">
         <div class="">
         <form>
-            <Field name="email" bind:value={email} required="true" />
-            <Field name="password" type="password" bind:value={password} required="true"/>
-            <button on:mouseenter={event => event.target.form.reportValidity()} on:click={trigger => login(trigger)}> Sign In</button>
+            <Field name="email" type="email" bind:value={form.email} required="true" />
+            <Field name="password" type="password" bind:value={form.password} required="true"/>
+            <button on:mouseenter={checkForm} on:click={login}> Sign In</button>
         </form>
+        <!-- {form.email}
+        {form.password} -->
         </div>
     </div>
 </div>

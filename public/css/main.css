@@ -22,6 +22,9 @@
  ========================================================================== */
 /* ==========================================================================
    Variables
+   -Fonts
+   -Colors ref: pg 139 of color pallete
+   -Breakponts
    ---
    Global SCSS variables (override default values defined in component files)
    ========================================================================== */
@@ -82,6 +85,12 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+input:required {
+  box-shadow: none; }
+
+input:invalid {
+  box-shadow: none; }
+
 /* Elements: element selectors, CMS-generated content
    ========================================================================== */
 /* ==========================================================================
@@ -106,7 +115,7 @@ html {
       font-size: 62.5%; } }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 1.7rem;
   line-height: 1.65;
   color: #333;
@@ -463,13 +472,13 @@ img {
 button, .c-btn {
   white-space: nowrap;
   display: inline-block;
-  color: #000;
+  color: #ffe9b3;
   text-decoration: none;
-  background: rgba(0, 0, 0, 0.1);
+  background: #555555;
   padding: 1rem 1.4rem;
-  font-size: 1.4rem;
-  font-weight: 400;
-  border: none !important; }
+  font-size: 1.6rem;
+  font-weight: 800;
+  border: 1px solid #222222; }
   @media (prefers-color-scheme: dark) {
     button, .c-btn {
       color: #FFF; } }
@@ -477,7 +486,7 @@ button, .c-btn {
     button, .c-btn {
       background: rgba(255, 255, 255, 0.2); } }
   button:hover, button:focus, .c-btn:hover, .c-btn:focus {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.9);
     transition: 0.17s background ease-in-out; }
     @media (prefers-color-scheme: dark) {
       button:hover, button:focus, .c-btn:hover, .c-btn:focus {
@@ -610,7 +619,7 @@ button, .c-btn {
   line-height: 1.25; }
 
 .c-h4, .c-content h4 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 1.7rem;
   font-weight: 500;
   margin: 0 0 1.5rem;
@@ -872,22 +881,35 @@ button, .c-btn {
 .c-sticky-footer-layout__item-inner-center {
   margin: auto; }
 
+/* Forms */
 /* ==========================================================================
-  c-input
+  c-form
    ========================================================================== */
-input, .input {
-  line-height: 1.5;
-  margin: 0;
-  height: 2.1em;
-  padding: .3em .6em;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: .2em;
-  transition: all 0.3s;
-  width: 100%; }
-  input:focus, .input:focus {
-    border: 1px solid #333;
-    outline: 0; }
+form:invalid button {
+  border: 1px solid #eee;
+  background-color: #eee;
+  color: #ccc;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out; }
+
+.simple-form input {
+  margin: 0 .25rem;
+  min-width: 125px;
+  border: 1px solid #eee;
+  border-left: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out; }
+
+.simple-form input:optional {
+  border-left-color: #999; }
+
+.simple-form input:required:valid {
+  border-left-color: palegreen; }
+
+.simple-form input:invalid {
+  border-left-color: salmon; }
 
 /* ==========================================================================
   c-fieldset
@@ -895,6 +917,63 @@ input, .input {
 fieldset, .field {
   padding-bottom: .6em; }
 
+.control {
+  padding-top: 5px; }
+
+/* ==========================================================================
+  c-input
+   ========================================================================== */
+.control {
+  border-bottom: 1px solid #bbb;
+  position: relative; }
+
+input, .input {
+  line-height: 1.5;
+  height: 2.1em;
+  border: none;
+  background-color: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: 20px;
+  padding-left: 6px; }
+  input:focus, .input:focus {
+    outline: 0; }
+  input:required::placeholder, .input:required::placeholder {
+    color: #4d340e; }
+
+label {
+  position: absolute;
+  font-size: 14px;
+  top: 5px;
+  left: 4px;
+  color: #775117; }
+
+input:invalid {
+  background: rgba(207, 163, 19, 0.1); }
+
+input:placeholder-shown + label {
+  opacity: 0; }
+
+input:not(:placeholder-shown) + label {
+  opacity: 1;
+  display: block;
+  position: absolute;
+  color: #775117;
+  -webkit-transition: opacity 0.3s ease-out;
+  -moz-transition: opacity 0.3s ease-out;
+  -o-transition: opacity 0.3s ease-out;
+  transition: opacity 0.3s ease-out; }
+  input:not(:placeholder-shown) + label::after {
+    content: ' *';
+    color: #222; }
+
+input:not(:placeholder-shown):invalid {
+  background: rgba(207, 19, 19, 0.1);
+  -webkit-transition: all 4s ease-out;
+  -moz-transition: all 4s ease-out;
+  -o-transition: all 4s ease-out;
+  transition: all 4s ease-out; }
+
+/* Buttons */
 /* Utilities: specific helper classes, overrides
    ========================================================================== */
 /* ==========================================================================

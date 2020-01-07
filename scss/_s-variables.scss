@@ -1,5 +1,8 @@
 /* ==========================================================================
    Variables
+   -Fonts
+   -Colors ref: pg 139 of color pallete
+   -Breakponts
    ---
    Global SCSS variables (override default values defined in component files)
    ========================================================================== */
@@ -7,7 +10,7 @@
 /* Typography
    ========================================================================== */
 
-$g-base-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !default;
+$g-base-font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !default;
 $g-code-font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace !default;
 $g-base-font-size: 1.7rem !default;
 $g-base-line-height: 1.65 !default;
@@ -18,6 +21,10 @@ $g-headings-font-family: "Untitled Sans", -apple-system, BlinkMacSystemFont, 'Se
    ========================================================================== */
 
 $g-text-color: #FFF;
+// $g-primary-color-light: #ffae32;
+$g-primary-color-light: hsl(43, 100%, 85%);
+$g-primary-color-dark: #775117;
+$g-primary-color-darker: #4d340e;
 
 /* Breakpoints
    ========================================================================== */

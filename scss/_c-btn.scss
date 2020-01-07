@@ -6,23 +6,23 @@ button, .c-btn {
   white-space: nowrap;
   display: inline-block;
   
-  color: #000;
+  color: $g-primary-color-light;
   @media (prefers-color-scheme: dark) {
     color: #FFF;
   }
 
   text-decoration: none;
-  background: rgba(#000,0.1);
+  background: rgba(#555,1);
   @media (prefers-color-scheme: dark) {
     background: rgba(#FFF,0.2);
   }
   padding: 1rem 1.4rem;
-  font-size: 1.4rem;
-  font-weight: 400;
-  border: none !important;
+  font-size: 1.6rem;
+  font-weight: 800;
+  border: 1px solid rgba(#222,1);
   &:hover,
   &:focus {
-    background: rgba(#000,0.4);
+    background: rgba(#000,0.9);
     @media (prefers-color-scheme: dark) {
       background: rgba(#FFF,0.4);
     }

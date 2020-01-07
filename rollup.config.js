@@ -24,15 +24,15 @@ export default {
 	},
 	plugins: [
         replace({ 
-            // __AUTH_URL__: 'https://auth.knight.works/api/v1/login', 
-            __AUTH_URL__: 'http://localhost:3001/api/v1/login', 
+            __AUTH_URL__: 'https://auth.knight.works/api/v1/login', 
+            // __AUTH_URL__: 'http://localhost:3001/api/v1/login', 
             __API_URL__:  apiUrl + '/api/v1', 
         }),
-         alias({
-          entries: [
-            { find: '$p', replacement: 'src/pages' },
-            { find: '$c', replacement: 'src/components' }
-          ]
+        alias({
+            entries: [
+                { find: '$p', replacement: 'src/pages' },
+                { find: '$c', replacement: 'src/components' }
+            ]
         }),
 		svelte({
 			// enable run-time checks when not in production
