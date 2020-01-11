@@ -10,9 +10,9 @@ import sass from 'node-sass';
 
 
 const production = !process.env.ROLLUP_WATCH;
- const isProduction = process.env.BUILD === 'production';
+const isProduction = process.env.BUILD === 'production';
 
- let apiUrl = isProduction ? 'https://auth.knight.works' : 'http://localhost:3001'
+let apiUrl = isProduction ? 'https://auth.knight.works' : 'http://localhost:3001'
 
 export default {
 	input: 'src/main.js',

@@ -141,6 +141,9 @@ a {
   color: #00549e;
   text-decoration: none; }
 
+sup {
+  font-size: .5rem; }
+
 em, i {
   font-style: italic; }
 
@@ -894,23 +897,6 @@ form:invalid button {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out; }
 
-.simple-form input {
-  margin: 0 .25rem;
-  min-width: 125px;
-  border: 1px solid #eee;
-  border-left: 3px solid;
-  border-radius: 5px;
-  transition: border-color .5s ease-out; }
-
-.simple-form input:optional {
-  border-left-color: #999; }
-
-.simple-form input:required:valid {
-  border-left-color: palegreen; }
-
-.simple-form input:invalid {
-  border-left-color: salmon; }
-
 /* ==========================================================================
   c-fieldset
    ========================================================================== */
@@ -934,8 +920,10 @@ input, .input {
   background-color: #fff;
   transition: all 0.3s ease-out;
   margin-top: 20px;
-  padding-left: 6px; }
+  padding-left: 6px;
+  border-right: 2px solid transparent; }
   input:focus, .input:focus {
+    border-right: 2px solid #775117;
     outline: 0; }
   input:required::placeholder, .input:required::placeholder {
     color: #4d340e; }
@@ -964,7 +952,8 @@ input:not(:placeholder-shown) + label {
   transition: opacity 0.3s ease-out; }
   input:not(:placeholder-shown) + label::after {
     content: ' *';
-    color: #222; }
+    color: #222;
+    font-size: .5rem; }
 
 input:not(:placeholder-shown):invalid {
   background: rgba(207, 19, 19, 0.1);

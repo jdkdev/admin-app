@@ -14,13 +14,14 @@ input, .input {
     transition: all 0.3s ease-out;
     margin-top: 20px;
     padding-left: 6px;
+    border-right: 2px solid transparent;
     // border-radius: .2em;
     // width: 100%;
     // padding: .3em .6em;
     // border: 2px solid #ccc;
 
     &:focus {
-        // border: 2px solid #aaa;
+        border-right: 2px solid $g-primary-color-dark;
         outline: 0;
     }
     &:required::placeholder {
@@ -53,6 +54,7 @@ input:not(:placeholder-shown) + label {
     &::after {
         content: ' *';
         color: #222;
+        font-size: .5rem;
     }
 }
 

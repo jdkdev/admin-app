@@ -25,6 +25,7 @@
 
     function login(e) {
         e.preventDefault()
+        console.log({e})
         //TODO if (event.target.valid) //add to frontier-frontend
         // if (e.target.form.reportValidity()) $auth.login(form, '/', $goto)
         if (e.target.form.reportValidity()) $auth.login(form, '/', $goto)
@@ -40,8 +41,6 @@
             <Field name="password" type="password" bind:value={form.password} required="true"/>
             <button on:mouseenter={checkForm} on:click={login}> Sign In</button>
         </form>
-        <!-- {form.email}
-        {form.password} -->
         </div>
     </div>
 </div>

@@ -6890,14 +6890,14 @@ var app = (function () {
     			t1 = space();
     			button = element("button");
     			button.textContent = "Sign In";
-    			add_location(button, file$9, 40, 12, 1319);
-    			add_location(form_1, file$9, 37, 8, 1116);
+    			add_location(button, file$9, 41, 12, 1344);
+    			add_location(form_1, file$9, 38, 8, 1141);
     			attr_dev(div0, "class", "");
-    			add_location(div0, file$9, 36, 8, 1093);
+    			add_location(div0, file$9, 37, 8, 1118);
     			attr_dev(div1, "class", "o-container o-flex o-flex--center");
-    			add_location(div1, file$9, 35, 4, 1037);
+    			add_location(div1, file$9, 36, 4, 1062);
     			attr_dev(div2, "class", "o-container-vertical");
-    			add_location(div2, file$9, 34, 0, 998);
+    			add_location(div2, file$9, 35, 0, 1023);
 
     			dispose = [
     				listen_dev(button, "mouseenter", checkForm, false, false, false),
@@ -6998,6 +6998,7 @@ var app = (function () {
 
     	function login(e) {
     		e.preventDefault();
+    		console.log({ e });
     		if (e.target.form.reportValidity()) $auth.login(form, "/", $goto);
     	}
 

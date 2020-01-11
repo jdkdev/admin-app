@@ -1,4 +1,5 @@
+// Move this to .env.js and make changes in rollup.config.js
 module.exports = {
-    authUrl: 'https://auth.knight.works/api/v1/',
-    apiUrl: 'http://localhost:3000/api/v1/'
+    authUrl: '__AUTH_URL__',
+    apiUrl: '__API_URL__'
 }
