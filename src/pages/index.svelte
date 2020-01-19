@@ -1,9 +1,9 @@
 <script>
-    import { auth, currentUser } from 'frontier-frontend'
+    import { auth, currentUser } from '@frontierjs/frontend'
 </script>
 
 <svelte:head>
-    <title>Admin App</title>
+    <title>FrontierJS</title>
 </svelte:head>
 
 <style>
